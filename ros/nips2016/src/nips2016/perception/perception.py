@@ -4,8 +4,8 @@ import numpy as np
 from os.path import join
 from os import system
 from rospkg.rospack import RosPack
-from nips2016.srv import *
-from nips2016.msg import SensorialState, Demonstration
+from apex_playground.srv import *
+from apex_playground.msg import SensorialState, Demonstration
 from .aggregator import TopicAggregator
 from ..tools import joints
 
@@ -13,15 +13,15 @@ from ..tools import joints
 class Perception(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'perception.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'perception.json')) as f:
             self.params = json.load(f)
         self.rate = rospy.Rate(self.params['recording_rate'])
 
         # Serving these services
-        self.service_name_get = "/nips2016/perception/get"
-        self.service_name_record = "/nips2016/perception/record"
+        self.service_name_get = "/apex_playground/perception/get"
+        self.service_name_record = "/apex_playground/perception/record"
         # Using these services
-        self.service_name_set_compliant = "/nips2016/torso/set_compliant"
+        self.service_name_set_compliant = "/apex_playground/torso/set_compliant"
         self.topics = TopicAggregator()  # All topics are read and stored in that object
 
     def run(self):

@@ -49,7 +49,7 @@ class LightController(object):
             raise RuntimeError(repr(e) + "\nAre you running this script with root permissions?")
         else:
             self.set_all(0, 0, 0)
-            rospy.Subscriber("nips2016/environment/light", UInt8, self.cb_light)
+            rospy.Subscriber("apex_playground/environment/light", UInt8, self.cb_light)
             rospy.spin()
 
 if __name__ == '__main__':

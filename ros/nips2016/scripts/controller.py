@@ -3,7 +3,7 @@ import rospy
 import json
 from os.path import join
 from rospkg import RosPack
-from nips2016.controller import Perception, Learning, Torso, Ergo
+from apex_playground.controller import Perception, Learning, Torso, Ergo
 from trajectory_msgs.msg import JointTrajectory
 from std_msgs.msg import UInt32
 
@@ -11,14 +11,14 @@ from std_msgs.msg import UInt32
 class Controller(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'general.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'general.json')) as f:
             self.params = json.load(f)
         self.torso = Torso()
         self.ergo = Ergo()
         self.learning = Learning()
         self.perception = Perception()
         self.iteration = -1  # -1 means "not up to date"
-        rospy.Subscriber('/nips2016/iteration', UInt32, self._cb_iteration)
+        rospy.Subscriber('/apex_playground/iteration', UInt32, self._cb_iteration)
         rospy.loginfo('Controller fully started!')
 
     def _cb_iteration(self, msg):
@@ -28,7 +28,7 @@ class Controller(object):
         self.torso.reset(slow)
 
     def run(self):
-        nb_iterations = rospy.get_param('/nips2016/iterations')
+        nb_iterations = rospy.get_param('/apex_playground/iterations')
         while not rospy.is_shutdown() and self.iteration < nb_iterations:
             if self.iteration % self.params['ergo_reset'] == 1:
                 self.ergo.reset(True)
@@ -48,5 +48,5 @@ class Controller(object):
                 # Many blocking calls: No sleep?
 
 
-rospy.init_node("nips2016_controller")
+rospy.init_node("apex_playground_controller")
 Controller().run()

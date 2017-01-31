@@ -1,6 +1,6 @@
 
 cmake_minimum_required(VERSION 2.8.3)
-project(nips2016)
+project(apex_playground)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -124,7 +124,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES nips2016
+#  LIBRARIES apex_playground
    CATKIN_DEPENDS
       std_msgs
       geometry_msgs
@@ -142,24 +142,24 @@ catkin_package(
 # include_directories(include)
 
 ## Declare a C++ library
-# add_library(nips2016
-#   src/${PROJECT_NAME}/nips2016.cpp
+# add_library(apex_playground
+#   src/${PROJECT_NAME}/apex_playground.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(nips2016 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(apex_playground ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(nips2016_node src/nips2016_node.cpp)
+# add_executable(apex_playground_node src/apex_playground_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(nips2016_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(apex_playground_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(nips2016_node
+# target_link_libraries(apex_playground_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -178,7 +178,7 @@ catkin_package(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS nips2016 nips2016_node
+# install(TARGETS apex_playground apex_playground_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -203,7 +203,7 @@ catkin_package(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_nips2016.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_apex_playground.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

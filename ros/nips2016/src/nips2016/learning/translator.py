@@ -17,7 +17,7 @@ class EnvironmentTranslator(object):
     """
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'bounds.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'bounds.json')) as f:
             self.bounds = json.load(f)
         self.bounds_motors_min = np.array([float(bound[0]) for bound in self.bounds['motors']['positions']])
         self.bounds_motors_max = np.array([float(bound[1]) for bound in self.bounds['motors']['positions']])

@@ -1,6 +1,6 @@
 import json
 from rospkg import RosPack
-from nips2016.msg import CircularState
+from apex_playground.msg import CircularState
 from os.path import join
 from numpy import arctan2, sqrt, pi
 
@@ -8,7 +8,7 @@ from numpy import arctan2, sqrt, pi
 class EnvironmentConversions(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'environment.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'environment.json')) as f:
             self.params = json.load(f)
 
     def get_state(self, ball_center, arena_center, ring_radius):

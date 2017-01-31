@@ -6,14 +6,14 @@
   <arg name="name" default="experiment"/> <!-- Name of the experiment -->
   <arg name="iterations" default="1000000"/> <!-- Number of iterations to run -->
 
-  <param name="/nips2016/perception/debug" value="$(arg debug)" />
-  <param name="/nips2016/experiment_name" value="$(arg name)" />
-  <param name="/nips2016/source_name" value="$(arg source)" />
-  <param name="/nips2016/iterations" value="$(arg iterations)" />
-  <node name="environment" pkg="nips2016" type="environment.py" output="$(arg output)"/>
-  <node name="perception" pkg="nips2016" type="perception.py" output="$(arg output)"/>
-  <node name="torso" pkg="nips2016" type="torso.py" output="$(arg output)" respawn="true"/>
-  <node name="learning" pkg="nips2016" type="learning.py" output="$(arg output)" required="true"/>
-  <node name="user" pkg="nips2016" type="user.py" output="$(arg output)" respawn="true"/>
-  <node name="sound" pkg="nips2016" type="sound.py" output="$(arg output)" respawn="true"/>
+  <param name="/apex_playground/perception/debug" value="$(arg debug)" />
+  <param name="/apex_playground/experiment_name" value="$(arg name)" />
+  <param name="/apex_playground/source_name" value="$(arg source)" />
+  <param name="/apex_playground/iterations" value="$(arg iterations)" />
+  <node name="environment" pkg="apex_playground" type="environment.py" output="$(arg output)"/>
+  <node name="perception" pkg="apex_playground" type="perception.py" output="$(arg output)"/>
+  <node name="torso" pkg="apex_playground" type="torso.py" output="$(arg output)" respawn="true"/>
+  <node name="learning" pkg="apex_playground" type="learning.py" output="$(arg output)" required="true"/>
+  <node name="user" pkg="apex_playground" type="user.py" output="$(arg output)" respawn="true"/>
+  <node name="sound" pkg="apex_playground" type="sound.py" output="$(arg output)" respawn="true"/>
 </launch>

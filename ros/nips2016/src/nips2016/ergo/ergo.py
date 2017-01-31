@@ -4,8 +4,8 @@ import rosnode
 import json
 import pygame
 import pygame.display
-from nips2016.srv import *
-from nips2016.msg import *
+from apex_playground.srv import *
+from apex_playground.msg import *
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Joy
 from std_msgs.msg import Bool
@@ -25,15 +25,15 @@ pygame.joystick.init()
 class Ergo(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'ergo.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'ergo.json')) as f:
             self.params = json.load(f)
         self.button = Button(self.params)
         self.rate = rospy.Rate(self.params['publish_rate'])
-        self.eef_pub = rospy.Publisher('/nips2016/ergo/end_effector_pose', PoseStamped, queue_size=1)
-        self.state_pub = rospy.Publisher('/nips2016/ergo/state', CircularState, queue_size=1)
-        self.button_pub = rospy.Publisher('/nips2016/ergo/button', Bool, queue_size=1)
-        self.joy_pub = rospy.Publisher('/nips2016/ergo/joysticks/1', Joy, queue_size=1)
-        self.joy_pub2 = rospy.Publisher('/nips2016/ergo/joysticks/2', Joy, queue_size=1)
+        self.eef_pub = rospy.Publisher('/apex_playground/ergo/end_effector_pose', PoseStamped, queue_size=1)
+        self.state_pub = rospy.Publisher('/apex_playground/ergo/state', CircularState, queue_size=1)
+        self.button_pub = rospy.Publisher('/apex_playground/ergo/button', Bool, queue_size=1)
+        self.joy_pub = rospy.Publisher('/apex_playground/ergo/joysticks/1', Joy, queue_size=1)
+        self.joy_pub2 = rospy.Publisher('/apex_playground/ergo/joysticks/2', Joy, queue_size=1)
         self.srv_reset = None
         self.ergo = None
         self.extended = False
@@ -94,7 +94,7 @@ class Ergo(object):
         self.ergo.compliant = False
         self.go_to_start()
         self.last_activity = rospy.Time.now()
-        self.srv_reset = rospy.Service('/nips2016/ergo/reset', Reset, self._cb_reset)
+        self.srv_reset = rospy.Service('/apex_playground/ergo/reset', Reset, self._cb_reset)
         rospy.loginfo('Ergo is ready and starts joystick servoing...')
 
         while not rospy.is_shutdown():

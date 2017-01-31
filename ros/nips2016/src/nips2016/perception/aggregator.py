@@ -1,4 +1,4 @@
-from nips2016.msg import CircularState
+from apex_playground.msg import CircularState
 from std_msgs.msg import UInt8, Float32, Bool
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import JointState, Joy
@@ -8,15 +8,15 @@ import rospy
 class TopicAggregator(object):
     def __init__(self):
         self.topics = {
-            "ball": {"topic": "/nips2016/environment/ball", "sub": None, "data": CircularState(), "type": CircularState},
-            "light": {"topic": "/nips2016/environment/light", "sub": None, "data": UInt8(), "type": UInt8},
-            "sound": {"topic": "/nips2016/environment/sound", "sub": None, "data": Float32(), "type": Float32},
-            "ergo_state": {"topic": "/nips2016/ergo/state", "sub": None, "data": CircularState(), "type": CircularState},
-            "joy1": {"topic": "/nips2016/ergo/joysticks/1", "sub": None, "data": Joy(), "type": Joy},
-            "joy2": {"topic": "/nips2016/ergo/joysticks/2", "sub": None, "data": Joy(), "type": Joy},
-            "torso_l_j": {"topic": "/nips2016/torso/left_arm/joints", "sub": None, "data": JointState(), "type": JointState},
-            "torso_l_eef": {"topic": "/nips2016/torso/left_arm/end_effector_pose", "sub": None, "data": PoseStamped(), "type": PoseStamped},
-            "torso_r_eef": {"topic": "/nips2016/torso/right_arm/end_effector_pose", "sub": None, "data": PoseStamped(), "type": PoseStamped}
+            "ball": {"topic": "/apex_playground/environment/ball", "sub": None, "data": CircularState(), "type": CircularState},
+            "light": {"topic": "/apex_playground/environment/light", "sub": None, "data": UInt8(), "type": UInt8},
+            "sound": {"topic": "/apex_playground/environment/sound", "sub": None, "data": Float32(), "type": Float32},
+            "ergo_state": {"topic": "/apex_playground/ergo/state", "sub": None, "data": CircularState(), "type": CircularState},
+            "joy1": {"topic": "/apex_playground/ergo/joysticks/1", "sub": None, "data": Joy(), "type": Joy},
+            "joy2": {"topic": "/apex_playground/ergo/joysticks/2", "sub": None, "data": Joy(), "type": Joy},
+            "torso_l_j": {"topic": "/apex_playground/torso/left_arm/joints", "sub": None, "data": JointState(), "type": JointState},
+            "torso_l_eef": {"topic": "/apex_playground/torso/left_arm/end_effector_pose", "sub": None, "data": PoseStamped(), "type": PoseStamped},
+            "torso_r_eef": {"topic": "/apex_playground/torso/right_arm/end_effector_pose", "sub": None, "data": PoseStamped(), "type": PoseStamped}
         }
 
         self.topics["ball"]["sub"] = rospy.Subscriber(self.topics["ball"]["topic"], self.topics["ball"]["type"], self.cb_ball)

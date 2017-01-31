@@ -6,9 +6,9 @@ import json
 import datetime
 from os.path import join
 from rospkg.rospack import RosPack
-from nips2016.srv import *
-from nips2016.msg import Interests, Demonstration
-from nips2016.learning import EnvironmentTranslator, Learning
+from apex_playground.srv import *
+from apex_playground.msg import Interests, Demonstration
+from apex_playground.learning import EnvironmentTranslator, Learning
 from std_msgs.msg import String, Bool, UInt32, Float32
 from threading import RLock
 from copy import copy
@@ -18,7 +18,7 @@ from os.path import isfile
 class LearningNode(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'learning.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'learning.json')) as f:
             self.params = json.load(f)
 
         self.translator = EnvironmentTranslator()
@@ -28,8 +28,8 @@ class LearningNode(object):
                                  choice_eps=self.params["choice_eps"], 
                                  enable_hand=self.params["enable_hand"],
                                  normalize_interests=self.params["normalize_interests"])
-        self.experiment_name = rospy.get_param("/nips2016/experiment_name", "experiment")
-        # self.source_name = rospy.get_param("/nips2016/source_name", "experiment")
+        self.experiment_name = rospy.get_param("/apex_playground/experiment_name", "experiment")
+        # self.source_name = rospy.get_param("/apex_playground/source_name", "experiment")
 
         rospy.loginfo("Learning node will write {}".format(self.experiment_name))
         # rospy.loginfo("Learning node will read {}".format(self.source_name))
@@ -42,7 +42,7 @@ class LearningNode(object):
         self.demonstrate = None
 
         # Saved experiment files
-        self.dir = join(self.rospack.get_path('nips2016'), 'logs')
+        self.dir = join(self.rospack.get_path('apex_playground'), 'logs')
         if not os.path.isdir(self.dir):
             os.makedirs(self.dir)
         # self.stamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -56,21 +56,21 @@ class LearningNode(object):
             self.learning.start()
 
         # Serving these services
-        self.service_name_perceive = "/nips2016/learning/perceive"
-        self.service_name_produce = "/nips2016/learning/produce"
-        self.service_name_set_interest = "/nips2016/learning/set_interest"
-        self.service_name_set_iteration = "/nips2016/learning/set_iteration"
-        self.service_name_demonstrate = "/nips2016/learning/assess"
+        self.service_name_perceive = "/apex_playground/learning/perceive"
+        self.service_name_produce = "/apex_playground/learning/produce"
+        self.service_name_set_interest = "/apex_playground/learning/set_interest"
+        self.service_name_set_iteration = "/apex_playground/learning/set_iteration"
+        self.service_name_demonstrate = "/apex_playground/learning/assess"
 
         # Publishing these topics
-        self.pub_interests = rospy.Publisher('/nips2016/learning/interests', Interests, queue_size=1, latch=True)
-        self.pub_focus = rospy.Publisher('/nips2016/learning/current_focus', String, queue_size=1, latch=True)
-        self.pub_user_focus = rospy.Publisher('/nips2016/learning/user_focus', String, queue_size=1, latch=True)
-        self.pub_ready = rospy.Publisher('/nips2016/learning/ready_for_interaction', Bool, queue_size=1, latch=True)
-        self.pub_iteration = rospy.Publisher('/nips2016/iteration', UInt32, queue_size=1, latch=True)
+        self.pub_interests = rospy.Publisher('/apex_playground/learning/interests', Interests, queue_size=1, latch=True)
+        self.pub_focus = rospy.Publisher('/apex_playground/learning/current_focus', String, queue_size=1, latch=True)
+        self.pub_user_focus = rospy.Publisher('/apex_playground/learning/user_focus', String, queue_size=1, latch=True)
+        self.pub_ready = rospy.Publisher('/apex_playground/learning/ready_for_interaction', Bool, queue_size=1, latch=True)
+        self.pub_iteration = rospy.Publisher('/apex_playground/iteration', UInt32, queue_size=1, latch=True)
 
         # Using these services
-        self.service_name_get_perception = "/nips2016/perception/get"
+        self.service_name_get_perception = "/apex_playground/perception/get"
         for service in [self.service_name_get_perception]:
             rospy.loginfo("Learning  node is waiting service {}...".format(service))
             rospy.wait_for_service(service)

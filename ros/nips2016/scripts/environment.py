@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from nips2016.environment import BallTracking, EnvironmentConversions
+from apex_playground.environment import BallTracking, EnvironmentConversions
 from std_msgs.msg import Float32, UInt8
-from nips2016.msg import CircularState
+from apex_playground.msg import CircularState
 from rospkg import RosPack
 from os.path import join
 import json
@@ -13,7 +13,7 @@ class Environment(object):
     def __init__(self):
         # Load parameters and hack the tuple conversions so that OpenCV is happy
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'environment.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'environment.json')) as f:
             self.params = json.load(f)
         self.params['tracking']['ball']['lower'] = tuple(self.params['tracking']['ball']['lower'])
         self.params['tracking']['ball']['upper'] = tuple(self.params['tracking']['ball']['upper'])
@@ -22,9 +22,9 @@ class Environment(object):
 
         self.tracking = BallTracking(self.params)
         self.conversions = EnvironmentConversions()
-        self.ball_pub = rospy.Publisher('/nips2016/environment/ball', CircularState, queue_size=1)
-        self.light_pub = rospy.Publisher('/nips2016/environment/light', UInt8, queue_size=1)
-        self.sound_pub = rospy.Publisher('/nips2016/environment/sound', Float32, queue_size=1)
+        self.ball_pub = rospy.Publisher('/apex_playground/environment/ball', CircularState, queue_size=1)
+        self.light_pub = rospy.Publisher('/apex_playground/environment/light', UInt8, queue_size=1)
+        self.sound_pub = rospy.Publisher('/apex_playground/environment/sound', Float32, queue_size=1)
         self.rate = rospy.Rate(self.params['rate'])
 
     def update_light(self, state):
@@ -39,7 +39,7 @@ class Environment(object):
             return
 
         while not rospy.is_shutdown():
-            debug = rospy.get_param('/nips2016/perception/debug', False)
+            debug = rospy.get_param('/apex_playground/perception/debug', False)
             grabbed, frame = self.tracking.read()
 
             if not grabbed:

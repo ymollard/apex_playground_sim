@@ -11,17 +11,17 @@ Bash scripts define the Raspberry Pi as the ROS master, thus its launch file has
    ssh root@fuzz.local -X
    cd ros_ws
    ./fuzz.local
-   roslaunch nips2016 raspberry_pi.launch
+   roslaunch apex_playground raspberry_pi.launch
 ```
 
 ### On the workstation
 The command hereunder will start the services and the controller run:
 ```
-roslaunch nips2016 start.launch name:=new_dataset source:=source_dataset iterations:=100
+roslaunch apex_playground start.launch name:=new_dataset source:=source_dataset iterations:=100
 ```
 
 
 You might want to start only the services to monitor topics and requests services manually, then call instead:
 ```
-roslaunch nips2016 workstation.launch
+roslaunch apex_playground workstation.launch
 ```

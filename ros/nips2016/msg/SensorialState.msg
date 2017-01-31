@@ -1,8 +1,8 @@
 geometry_msgs/PoseStamped hand
-nips2016/CircularState ball
+apex_playground/CircularState ball
 sensor_msgs/Joy joystick_1
 sensor_msgs/Joy joystick_2
-nips2016/CircularState ergo
+apex_playground/CircularState ergo
 std_msgs/Float32 sound
 std_msgs/UInt8 color
 

@@ -1,20 +1,20 @@
 import rospy
 from numpy import array
-from nips2016.srv import SetIteration, SetIterationRequest, SetFocus, SetFocusRequest, Assess, AssessRequest
-from nips2016.msg import Interests
+from apex_playground.srv import SetIteration, SetIterationRequest, SetFocus, SetFocusRequest, Assess, AssessRequest
+from apex_playground.msg import Interests
 from std_msgs.msg import String, Bool, UInt32
 
 
 class UserServices(object):
     def __init__(self):
-        self.services = {'set_iteration': {'name': '/nips2016/learning/set_iteration', 'type': SetIteration},
-                         'set_focus': {'name': '/nips2016/learning/set_interest', 'type': SetFocus},
-                         'assess': {'name': '/nips2016/learning/assess', 'type': Assess}}
+        self.services = {'set_iteration': {'name': '/apex_playground/learning/set_iteration', 'type': SetIteration},
+                         'set_focus': {'name': '/apex_playground/learning/set_interest', 'type': SetFocus},
+                         'assess': {'name': '/apex_playground/learning/assess', 'type': Assess}}
 
-        rospy.Subscriber('/nips2016/learning/interests', Interests, self._cb_interests)
-        rospy.Subscriber('/nips2016/learning/current_focus', String, self._cb_focus)
-        rospy.Subscriber('/nips2016/learning/user_focus', String, self._cb_user_focus)
-        rospy.Subscriber('/nips2016/learning/ready_for_interaction', Bool, self._cb_ready)
+        rospy.Subscriber('/apex_playground/learning/interests', Interests, self._cb_interests)
+        rospy.Subscriber('/apex_playground/learning/current_focus', String, self._cb_focus)
+        rospy.Subscriber('/apex_playground/learning/user_focus', String, self._cb_user_focus)
+        rospy.Subscriber('/apex_playground/learning/ready_for_interaction', Bool, self._cb_ready)
 
         self.interests = {}
         self.current_focus = ""

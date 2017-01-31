@@ -8,7 +8,7 @@ from flask import request
 from flask_cors import CORS
 from rospkg import RosPack
 from rospy import ServiceException
-from nips2016.user import UserServices
+from apex_playground.user import UserServices
 from threading import Thread
 from copy import copy
 
@@ -16,7 +16,7 @@ from copy import copy
 class UserNode(object):
     def __init__(self):
         self.rospack = RosPack()
-        self.web_app_root = join(self.rospack.get_path('nips2016'), 'webapp', 'static')
+        self.web_app_root = join(self.rospack.get_path('apex_playground'), 'webapp', 'static')
         self.app = Flask(__name__, static_url_path='', static_folder=self.web_app_root)
         self.cors = CORS(self.app, resources={r'/api/*': {'origins': '*'}})
         self.services = UserServices()

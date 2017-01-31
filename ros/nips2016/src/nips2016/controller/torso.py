@@ -1,11 +1,11 @@
 import rospy
-from nips2016.srv import *
+from apex_playground.srv import *
 
 
 class Torso(object):
     def __init__(self):
-        self.services = {'exec_torso': {'name': '/nips2016/torso/execute', 'type': ExecuteTorsoTrajectory},
-                         'reset_torso': {'name': '/nips2016/torso/reset', 'type': Reset}}
+        self.services = {'exec_torso': {'name': '/apex_playground/torso/execute', 'type': ExecuteTorsoTrajectory},
+                         'reset_torso': {'name': '/apex_playground/torso/reset', 'type': Reset}}
         for service_name, service in self.services.items():
             rospy.loginfo("Controller is waiting service {}...".format(service['name']))
             rospy.wait_for_service(service['name'])

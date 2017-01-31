@@ -1,7 +1,7 @@
 import rospy
 import json
 from os import system
-from nips2016.srv import *
+from apex_playground.srv import *
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import JointState
 from poppy.creatures import PoppyTorso
@@ -14,9 +14,9 @@ from threading import Thread
 class Torso(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'torso.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'torso.json')) as f:
             self.params = json.load(f)
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'perception.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'perception.json')) as f:
             self.perception_params = json.load(f) # TODO remove perception
 
         self.execute_rate_hz = self.perception_params['recording_rate']  # TODO
@@ -24,9 +24,9 @@ class Torso(object):
 
         self.publish_rate = rospy.Rate(self.params['publish_rate'])
 
-        self.eef_pub_l = rospy.Publisher('/nips2016/torso/left_arm/end_effector_pose', PoseStamped, queue_size=1)
-        self.eef_pub_r = rospy.Publisher('/nips2016/torso/right_arm/end_effector_pose', PoseStamped, queue_size=1)
-        self.js_pub_l = rospy.Publisher('/nips2016/torso/left_arm/joints', JointState, queue_size=1)
+        self.eef_pub_l = rospy.Publisher('/apex_playground/torso/left_arm/end_effector_pose', PoseStamped, queue_size=1)
+        self.eef_pub_r = rospy.Publisher('/apex_playground/torso/right_arm/end_effector_pose', PoseStamped, queue_size=1)
+        self.js_pub_l = rospy.Publisher('/apex_playground/torso/left_arm/joints', JointState, queue_size=1)
 
         self.srv_reset = None
         self.srv_execute = None
@@ -70,9 +70,9 @@ class Torso(object):
             self.torso.compliant = False
             self.go_to_rest(True)
 
-            self.srv_reset = rospy.Service('/nips2016/torso/reset', Reset, self._cb_reset)
-            self.srv_execute = rospy.Service('/nips2016/torso/execute', ExecuteTorsoTrajectory, self._cb_execute)
-            self.srv_set_compliant = rospy.Service('/nips2016/torso/set_compliant', SetTorsoCompliant, self._cb_set_compliant)
+            self.srv_reset = rospy.Service('/apex_playground/torso/reset', Reset, self._cb_reset)
+            self.srv_execute = rospy.Service('/apex_playground/torso/execute', ExecuteTorsoTrajectory, self._cb_execute)
+            self.srv_set_compliant = rospy.Service('/apex_playground/torso/set_compliant', SetTorsoCompliant, self._cb_set_compliant)
 
             rospy.loginfo("Torso is ready to execute trajectories at {} Hz ".format(self.execute_rate_hz))
 

@@ -1,23 +1,23 @@
 from std_msgs.msg import Bool, UInt8
 from rospkg import RosPack
 from os.path import join
-from nips2016.srv import RecordRequest, Record
+from apex_playground.srv import RecordRequest, Record
 import rospy
 import json
 
 
 class Perception(object):
     def __init__(self):
-        self.services = {'record': {'name': '/nips2016/perception/record', 'type': Record}}
+        self.services = {'record': {'name': '/apex_playground/perception/record', 'type': Record}}
         for service_name, service in self.services.items():
             rospy.loginfo("Controller is waiting service {}...".format(service['name']))
             rospy.wait_for_service(service['name'])
             service['call'] = rospy.ServiceProxy(service['name'], service['type'])
-        rospy.Subscriber('/nips2016/ergo/button', Bool, self._cb_help_pressed)
+        rospy.Subscriber('/apex_playground/ergo/button', Bool, self._cb_help_pressed)
         self.button_pressed = False
         self.last_press = rospy.Time(0)
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'perception.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'perception.json')) as f:
             self.params = json.load(f)
 
     def _cb_help_pressed(self, msg):

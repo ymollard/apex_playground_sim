@@ -11,10 +11,10 @@ from os.path import join
 class SoundController(object):
     def __init__(self):
         self.rospack = RosPack()
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'environment.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'environment.json')) as f:
             self.params = json.load(f)
 
-        with open(join(self.rospack.get_path('nips2016'), 'config', 'bounds.json')) as f:
+        with open(join(self.rospack.get_path('apex_playground'), 'config', 'bounds.json')) as f:
             self.bounds = json.load(f)["sensory"]["sound"][0]
 
         self.p = pyaudio.PyAudio()
@@ -40,7 +40,7 @@ class SoundController(object):
         self.stream.write(samples)
 
     def run(self):
-        rospy.Subscriber("nips2016/environment/sound", Float32, self.cb_sound)
+        rospy.Subscriber("apex_playground/environment/sound", Float32, self.cb_sound)
         rospy.spin()
         self.stream.stop_stream()
         self.stream.close()

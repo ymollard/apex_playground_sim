@@ -1,10 +1,10 @@
 import rospy
-from nips2016.srv import *
+from apex_playground.srv import *
 
 
 class Ergo(object):
     def __init__(self):
-        self.services = {'reset_ergo': {'name': '/nips2016/ergo/reset', 'type': Reset}}
+        self.services = {'reset_ergo': {'name': '/apex_playground/ergo/reset', 'type': Reset}}
 
         for service_name, service in self.services.items():
             rospy.loginfo("Controller is waiting service {}...".format(service['name']))

@@ -1,11 +1,11 @@
 import rospy
-from nips2016.srv import *
+from apex_playground.srv import *
 
 
 class Learning(object):
     def __init__(self):
-        self.services = {'produce': {'name': '/nips2016/learning/produce', 'type': Produce},
-                         'perceive': {'name': '/nips2016/learning/perceive', 'type': Perceive}}
+        self.services = {'produce': {'name': '/apex_playground/learning/produce', 'type': Produce},
+                         'perceive': {'name': '/apex_playground/learning/perceive', 'type': Perceive}}
 
         for service_name, service in self.services.items():
             rospy.loginfo("Controller is waiting service {}...".format(service['name']))
