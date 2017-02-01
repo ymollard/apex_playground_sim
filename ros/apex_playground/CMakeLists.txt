@@ -102,11 +102,7 @@ catkin_python_setup()
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES apex_playground
-   CATKIN_DEPENDS
-      std_msgs
-      geometry_msgs
-      message_generation
-      message_runtime
+#   CATKIN_DEPENDS
 #  DEPENDS system_lib
 )
 
