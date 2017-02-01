@@ -7,12 +7,7 @@ project(apex_playground)
 ## is used, also find other catkin packages
 find_package(
    catkin REQUIRED
-   std_msgs
-   sensor_msgs
-   geometry_msgs
-   trajectory_msgs
-   message_generation
-   message_runtime
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -49,33 +44,18 @@ catkin_python_setup()
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  CircularState.msg 
-  ErgoTrajectory.msg
-  SensorialState.msg
-  SensorialTrajectory.msg
-  Interests.msg
-  Demonstration.msg
-
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  ExecuteErgoTrajectory.srv
-  GetSensorialState.srv  
-  Produce.srv
-  Reset.srv
-  ExecuteTorsoTrajectory.srv
-  Perceive.srv
-  Record.srv
-  SetTorsoCompliant.srv
-  SetFocus.srv
-  SetIteration.srv
-  Assess.srv
-
-)
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -85,13 +65,10 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-  geometry_msgs
-  sensor_msgs
-  trajectory_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
