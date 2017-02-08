@@ -8,8 +8,9 @@ fi
 sudo swapon /dev/sda1
 
 sudo apt-get update
-sudo apt-get install python python-dev
-sudo apt-get install htop uptimed git
+sudo apt-get upgrade -y
+sudo apt-get install -y python python-dev
+sudo apt-get install -y htop uptimed git
 
 sed -i.bak -e "s/#alias /alias /g" /home/pi/.bashrc
 
@@ -18,24 +19,18 @@ wget bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
 sudo pip install jupyter-notebook
 
-# Poppy Torso/Ergo (~2hrs to install and compile)
-sudo apt-get install -y liblapack-dev gfortran        # Required by scipy
-sudo pip install poppy-ergo-jr poppy-torso
-
 # ROS Kinectic
 mkdir -p /home/pi/ros_ws/src
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu jessie main" > /etc/apt/sources.list.d/ros-latest.list'
 wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | sudo apt-key add -
-sudo apt-get update
-sudo apt-get upgrade
 sudo apt-get install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake
 sudo apt-get install -y python-setuptools python-yaml python-distribute python-docutils python-dateutil python-six
 sudo pip install rosdep rosinstall_generator wstool rosinstall empy
 cd /home/pi/ros_ws
 sudo rosdep init
 rosdep update
-rosinstall_generator desktop --rosdistro kinetic --deps --wet-only --tar > kinetic-desktop-wet.rosinstall
-wstool init src kinetic-desktop-wet.rosinstall
+rosinstall_generator ros_comm --rosdistro kinetic --deps --wet-only --tar > kinetic-roscomm-wet.rosinstall
+wstool init src kinetic-roscomm-wet.rosinstall
 
 # Fix assimp as in the tuto
 mkdir -p /home/pi/ros_ws/external_src
@@ -50,7 +45,16 @@ sudo make install
 # Recover ROS install
 cd /home/pi/ros_ws/
 rosdep install -y --from-paths src --ignore-src --rosdistro kinetic -r --os=debian:jessie
-sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic
+sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
+
+if [ $? -ne 0 ]; then
+    echo -e "\e[31mROS comm install failed, exiting\e[0m"
+    exit 1
+fi
+
+# Poppy Torso/Ergo (~2hrs to install and compile)
+sudo apt-get install -y liblapack-dev gfortran        # Required by scipy
+sudo pip install poppy-ergo-jr poppy-torso
 
 # APEX playground files
 mkdir -p /home/pi/Repos
@@ -59,9 +63,9 @@ git clone https://github.com/ymollard/apex_playground.git
 ln -s apex_playground/ros/ /home/pi/ros_ws/src/apex_playground
 
 cd /home/pi/ros_ws
-./src/catkin/bin/catkin_make_isolated
+sudo ./src/catkin/bin/catkin_make_isolated -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
 
-# In case of fail with Eigen3:
+# In case of fail with Eigen3 add -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Module or
 # Replace find_package(Eigen3) by
 # ```
 #    find_package( PkgConfig )
@@ -72,6 +76,6 @@ cd /home/pi/ros_ws
 # in ros_ws/src/geometric_shapes/CMakeLists.txt
 
 # Done, leaving...
-if [ -eq $? 0 ]; then
+if [ $? -eq 0 ]; then
     sudo swapoff /dev/sda1
 fi
