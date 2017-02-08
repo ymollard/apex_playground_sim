@@ -9,7 +9,7 @@ sudo swapon /dev/sda1
 
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y python python-dev
+sudo apt-get install -y python python-dev cmake
 sudo apt-get install -y htop uptimed git
 
 sed -i.bak -e "s/#alias /alias /g" /home/pi/.bashrc
