@@ -9,7 +9,7 @@ sudo swapon /dev/sda1
 
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y python python-dev cmake
+sudo apt-get install -y python ipython python-dev cmake
 sudo apt-get install -y htop uptimed git
 
 sed -i.bak -e "s/#alias /alias /g" /home/pi/.bashrc
@@ -17,7 +17,6 @@ sed -i.bak -e "s/#alias /alias /g" /home/pi/.bashrc
 # Python packages
 wget bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
-sudo pip install jupyter-notebook
 
 # ROS Kinectic
 mkdir -p /home/pi/ros_ws/src
@@ -63,7 +62,7 @@ sudo pip install poppy-ergo-jr poppy-torso
 mkdir -p /home/pi/Repos
 cd /home/pi/Repos
 git clone https://github.com/ymollard/apex_playground.git
-ln -s apex_playground/ros/ /home/pi/ros_ws/src/apex_playground
+ln -s /home/pi/Repos/apex_playground/ros/ /home/pi/ros_ws/src/apex_playground
 
 cd /home/pi/ros_ws
 sudo ./src/catkin/bin/catkin_make_isolated -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
