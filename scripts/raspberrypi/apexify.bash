@@ -47,6 +47,7 @@ rosdep install -y --from-paths src --ignore-src --rosdistro kinetic -r --os=debi
 sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
 
 if [ $? -eq 0 ]; then
+    sudo chown -R pi:pi /home/pi/ros_ws
     echo -e "\nexport LC_ALL=C # Fix: terminate called after throwing an instance of 'std::runtime_error' what():  locale::facet::_S_create_c_locale name not valid\n" >> /home/pi/.bashrc
     echo -e "if [ -f /home/pi/ros_ws/devel_isolated/setup.bash ]; then\n source /home/pi/ros_ws/devel_isolated/setup.bash\nfi\n " >> /home/pi/.bashrc
 else
@@ -65,17 +66,9 @@ git clone https://github.com/ymollard/apex_playground.git
 ln -s /home/pi/Repos/apex_playground/ros/ /home/pi/ros_ws/src/apex_playground
 
 cd /home/pi/ros_ws
-sudo ./src/catkin/bin/catkin_make_isolated -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
-
-# In case of fail with Eigen3 add -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Module or
-# Replace find_package(Eigen3) by
-# ```
-#    find_package( PkgConfig )
-#    pkg_check_modules( EIGEN3 REQUIRED eigen3 )
-#    include_directories( ${EIGEN3_INCLUDE_DIRS} )
-# ```
-# in ros_ws/src/eigen_stl_containers/CMakeLists.txt
-# in ros_ws/src/geometric_shapes/CMakeLists.txt
+wstool set common_msgs --git  https://github.com/ros/common_msgs.git --target-workspace=src -y
+wstool update common_msgs --target-workspace=src
+./src/catkin/bin/catkin_make_isolated -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
 
 # Done, leaving...
 if [ $? -eq 0 ]; then
