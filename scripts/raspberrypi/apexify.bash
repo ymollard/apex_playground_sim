@@ -47,7 +47,10 @@ cd /home/pi/ros_ws/
 rosdep install -y --from-paths src --ignore-src --rosdistro kinetic -r --os=debian:jessie
 sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
 
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
+    echo -e "\nexport LC_ALL=C # Fix: terminate called after throwing an instance of 'std::runtime_error' what():  locale::facet::_S_create_c_locale name not valid\n" >> /home/pi/.bashrc
+    echo -e "if [ -f /home/pi/ros_ws/devel_isolated/setup.bash ]; then\n source /home/pi/ros_ws/devel_isolated/setup.bash\nfi\n " >> /home/pi/.bashrc
+else
     echo -e "\e[31mROS comm install failed, exiting\e[0m"
     exit 1
 fi
