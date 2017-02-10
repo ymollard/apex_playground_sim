@@ -30,6 +30,8 @@ sudo rosdep init
 rosdep update
 rosinstall_generator ros_comm --rosdistro kinetic --deps --wet-only --tar > kinetic-roscomm-wet.rosinstall
 wstool init src kinetic-roscomm-wet.rosinstall
+wstool set common_msgs --git  https://github.com/ros/common_msgs.git --target-workspace=src -y
+wstool update common_msgs --target-workspace=src
 
 # Fix assimp as in the tuto
 mkdir -p /home/pi/ros_ws/external_src
@@ -47,9 +49,17 @@ rosdep install -y --from-paths src --ignore-src --rosdistro kinetic -r --os=debi
 sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
 
 if [ $? -eq 0 ]; then
-    sudo chown -R pi:pi /home/pi/ros_ws
+    # Move ros_ws_comm to a new folder and init a clean ws
+    cd /home/pi
+    source /opt/ros/kinetic/setup.bash
+    sudo mv /home/pi/ros_ws /home/pi/ros_ws_comm
+    mkdir -p ros_ws/src
+    cd ros_ws/src
+    catkin_init_workspace .
     echo -e "\nexport LC_ALL=C # Fix: terminate called after throwing an instance of 'std::runtime_error' what():  locale::facet::_S_create_c_locale name not valid\n" >> /home/pi/.bashrc
+    echo -e "source /opt/ros/kinetic/setup.bash\n" >> /home/pi/.bashrc
     echo -e "if [ -f /home/pi/ros_ws/devel_isolated/setup.bash ]; then\n source /home/pi/ros_ws/devel_isolated/setup.bash\nfi\n " >> /home/pi/.bashrc
+    source /opt/ros/kinetic/setup.bash
 else
     echo -e "\e[31mROS comm install failed, exiting\e[0m"
     exit 1
@@ -59,18 +69,29 @@ fi
 sudo apt-get install -y liblapack-dev gfortran        # Required by scipy
 sudo pip install poppy-ergo-jr poppy-torso
 
-# APEX playground files
+# Pi3 UART config for Poppy Ergo
+sudo su -c "echo \"init_uart_clock=16000000\" >> /boot/config.txt"
+sudo su -c "echo \"enable_uart=1\" >> /boot/config.txt" 
+sudo su -c "echo \"dtoverlay=pi3-miniuart-bt\" >> /boot/config.txt" 
+# If serial issues: sudo raspi-config F6 Serial > Would you like a serial console = NO
+
+# APEX playground files and deps
+sudo apt-get install python-pygame -y
 mkdir -p /home/pi/Repos
 cd /home/pi/Repos
 git clone https://github.com/ymollard/apex_playground.git
 ln -s /home/pi/Repos/apex_playground/ros/ /home/pi/ros_ws/src/apex_playground
 
+# Bug: catkin_make_isolated does not compile well the last package, create a fake one
+cd /home/pi/ros_ws/src
+catkin_create_pkg zz_fake_pkg_workaround
+
+# Resume compiling
 cd /home/pi/ros_ws
-wstool set common_msgs --git  https://github.com/ros/common_msgs.git --target-workspace=src -y
-wstool update common_msgs --target-workspace=src
-./src/catkin/bin/catkin_make_isolated -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules
+catkin_make_isolated
 
 # Done, leaving...
 if [ $? -eq 0 ]; then
+    source /home/pi/ros_ws/devel_isolated/setup.bash
     sudo swapoff /dev/sda1
 fi
