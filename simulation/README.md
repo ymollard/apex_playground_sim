@@ -7,3 +7,8 @@ Edit the V-Rep remote API configuration to activate several servers and add as m
 nano V-REP_PRO_EDU_V3_3_2_64_Linux/remoteApiConnections.txt
 ```
 
+## Pypot install
+```
+sudo pip install "pypot<3"
+sudo pip install "poppy-creature<2"
+```
