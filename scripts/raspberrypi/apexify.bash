@@ -66,7 +66,7 @@ else
 fi
 
 # Poppy Torso/Ergo (~2hrs to install and compile)
-sudo apt-get install -y liblapack-dev gfortran        # Required by scipy
+sudo apt-get install -y liblapack-dev gfortran python-qt4       # Required by scipy/herborist
 sudo pip install poppy-ergo-jr poppy-torso
 
 # Pi3 UART config for Poppy Ergo
