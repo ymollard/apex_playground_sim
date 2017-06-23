@@ -76,7 +76,7 @@ sudo su -c "echo \"dtoverlay=pi3-miniuart-bt\" >> /boot/config.txt"
 # If serial issues: sudo raspi-config F6 Serial > Would you like a serial console = NO
 
 # APEX playground files and deps
-sudo apt-get install python-pygame -y
+sudo apt-get install python-pygame python-opencv -y
 mkdir -p /home/pi/Repos
 cd /home/pi/Repos
 git clone https://github.com/ymollard/apex_playground.git
